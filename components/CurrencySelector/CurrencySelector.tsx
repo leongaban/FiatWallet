@@ -4,7 +4,7 @@ export default class CurrencySelector extends React.PureComponent {
   public render() {
     return (
       <section>
-        <label htmlFor="currency-select">Currency</label>
+        <label htmlFor="currency-select">Currency </label>
         <select id="currency-select">
           <option value="usd">USD</option>
           <option value="euro">EURO</option>
