@@ -1,7 +1,9 @@
 import React from 'react'
 
-import FiatWallet from '../components/FiatWallet'
+import FiatWallet from '../containers/FiatWallet'
 
 export default () => (
-  <FiatWallet />
+  <div>
+    <FiatWallet />
+  </div>
 )
