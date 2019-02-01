@@ -2,59 +2,66 @@ import { createStore, applyMiddleware } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import thunkMiddleware from 'redux-thunk'
 
+import { getLatest } from './services/api'
+
 export interface IinitialState {
-  fiatPrices: [];
-  wallets: [];
+  assets: any[];
+  wallets: any[];
   defaultCurrency: string;
 }
 
-const initialState = {
-  fiatPrices: [],
+export interface IRatessRes {
+  data: IRatesData
+}
+
+export interface IRatesData {
+  base: string;
+  date: string;
+  rates: any;
+  success: boolean;
+  timestamp: number;
+}
+
+const defaultInitialState = {
+  assets: [],
   wallets: [],
-  defaultCurrency: ''
+  defaultCurrency: 'EURO'
 }
 
+// ACTION TYPES
 export const actionTypes = {
-  GET_PRICES: 'GET_PRICES'
+  GET_RATES: 'GET_RATES'
 }
 
-// REDUCERS
-export const reducer = (state = initialState, action: any) => {
+// REDUCER
+export const reducer = (state = defaultInitialState, action: any) => {
   switch (action.type) {
-    case actionTypes.GET_PRICES:
-      return state
+    case actionTypes.GET_RATES: {
+      const { payload } = action;
+      return {
+        ...state,
+        assets: payload
+      };
+    }
+
     default:
-      return state
+      return state;
   }
 }
 
-// MOCK API
-export async function getProgress(dispatch: any) {
-  try {
-    const priceList = await fetchPrices();
-    return dispatch({ type: actionTypes.GET_PRICES, payload: priceList })
-  }
-  catch (err) {
-    console.log('Error', err);
-  }
-}
-
-// Wait 1 sec before resolving promise
-function fetchPrices() {
-  return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve({ progress: 100 });
-      }, 1000);
-  });
-}
+// ACTIONS CREATORS
+export const actionGetRates = (rates: any) => ({
+  type: actionTypes.GET_RATES,
+  payload: rates
+});
 
 // ACTIONS
-export const addLoader = () => (dispatch: any) => {
-  getProgress(dispatch);
-}
+export const startGetRates = (defaultCurrency: string) => (dispatch: any) => getLatest(defaultCurrency).then((ratesArray) => {
+  dispatch(actionGetRates(ratesArray));
+});
 
 // @ts-ignore
-export function initializeStore(initialState: IinitialState = initialState) {
+export function initializeStore(initialState = defaultInitialState) {
   return createStore(
     reducer,
     initialState,

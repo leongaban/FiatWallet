@@ -4,7 +4,11 @@ import { prices } from '../../styles'
 
 const { PriceList } = prices;
 
-export default class Prices extends React.PureComponent {
+interface IProps {
+  prices: []
+}
+
+export default class Prices extends React.PureComponent<IProps> {
   public render() {
     return (
       <PriceList>

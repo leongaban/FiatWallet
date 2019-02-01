@@ -12,6 +12,7 @@
     "@types/styled-components": "^4.1.7",
     "@zeit/next-sass": "^1.0.1",
     "@zeit/next-typescript": "^1.1.1",
+    "axios": "^0.18.0",
     "decko": "^1.2.0",
     "enzyme": "^3.6.0",
     "next": "^8.0.0-canary.17",
