@@ -1,14 +1,15 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { startGetRates, IRatessRes } from '../store'
+import { startGetRates } from '../store'
+import { IAsset, IRatesRes } from '../shared/types'
 import { CurrencySelector, Header, Prices, Navigation } from '../components'
 
 interface IProps {
-  assets: [];
+  assets: IAsset[];
   wallets: [];
   defaultCurreny: string;
-  startGetRates(defaultCurreny: string): IRatessRes;
+  startGetRates(defaultCurreny: string): IRatesRes;
 }
 
 class FiatWallet extends React.PureComponent<IProps> {
@@ -18,16 +19,16 @@ class FiatWallet extends React.PureComponent<IProps> {
   }
 
   public render() {
-    const { assets, } = this.props;
+    const { assets } = this.props;
     return (
       <section>
         <CurrencySelector />
         <Header />
-        <Prices prices={assets} />
+        <Prices assets={assets} />
         <Navigation />
       </section>
     );
-  }     
+  }
 }
 
 const mapDispatchToProps = (dispatch: any) => ({

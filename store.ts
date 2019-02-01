@@ -3,23 +3,12 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import thunkMiddleware from 'redux-thunk'
 
 import { getLatest } from './services/api'
+import { IAsset } from './shared/types'
 
 export interface IinitialState {
-  assets: any[];
+  assets: IAsset[];
   wallets: any[];
   defaultCurrency: string;
-}
-
-export interface IRatessRes {
-  data: IRatesData
-}
-
-export interface IRatesData {
-  base: string;
-  date: string;
-  rates: any;
-  success: boolean;
-  timestamp: number;
 }
 
 const defaultInitialState = {
