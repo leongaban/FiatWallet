@@ -49,8 +49,7 @@ export const startGetRates = (defaultCurrency: string) => (dispatch: any) => get
   dispatch(actionGetRates(ratesArray));
 });
 
-// @ts-ignore
-export function initializeStore(initialState = defaultInitialState) {
+export function initializeStore(initialState: IinitialState = defaultInitialState) {
   return createStore(
     reducer,
     initialState,

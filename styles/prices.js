@@ -1,7 +1,9 @@
 import styled from 'styled-components'
 
 export const PriceList = styled.section`
+  overflow-y: scroll;
   margin: 1rem 0;
+  height: 24rem;
 
   ul {
     padding: 0;
