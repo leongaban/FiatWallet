@@ -1,3 +1,9 @@
+export interface IinitialState {
+  assets: IAsset[];
+  wallets: any[];
+  currency: string;
+}
+
 export interface IAsset {
   currency: string;
   rate: number;

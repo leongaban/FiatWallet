@@ -25,9 +25,7 @@ export default class Prices extends React.PureComponent<IProps> {
       <PriceList>
         <ul>
           {assets.map((asset) => (renderAssetRow(asset)))}
-          <li><span>USD</span><span>1.00</span></li>
-          <li><span>EUR</span><span>1.14</span></li>
-          <li><span>CHF</span><span>1.01</span></li>
+          <li><span>Loading asset rates...</span></li>
         </ul>
       </PriceList>
     );
