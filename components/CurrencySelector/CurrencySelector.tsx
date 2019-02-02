@@ -30,7 +30,7 @@ export default class CurrencySelector extends React.PureComponent<IProps, IState
         >
           <option value="USD">USD</option>
           <option value="EUR">EURO</option>
-          <option value="CHF">CHF</option>
+          <option value="GBP">GBP</option>
         </select>
       </section>
     );

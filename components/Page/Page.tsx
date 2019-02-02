@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { ThemeProvider, createGlobalStyle } from 'styled-components'
 
-import { Meta } from '../../components'
+import { Meta, FreeForexApi } from '../../components'
 import { page } from '../../styles'
 import '../../global.scss'
 
@@ -55,6 +55,7 @@ export default class Page extends Component {
           <StyledPage>
             <Meta />
             <Inner>{this.props.children}</Inner>
+            <FreeForexApi />
           </StyledPage>
         </ThemeProvider>
         <GlobalStyle />

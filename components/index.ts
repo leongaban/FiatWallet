@@ -5,3 +5,4 @@ export { default as Prices } from './Prices/Prices';
 export { default as Navigation } from './Navigation/Navigation';
 export { default as Wallets } from './Wallets/Wallets';
 export { default as Wallet } from './Wallets/Wallet';
+export { default as FreeForexApi } from './Partials/FreeForexApi';

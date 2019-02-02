@@ -21,7 +21,7 @@ interface IStateProps {
 
 class FiatWallet extends React.PureComponent<IProps, IStateProps> {
   componentDidMount() {
-    const { currency, startGetRates } = this.props;
+    const { startGetRates } = this.props;
     startGetRates();
   }
 
