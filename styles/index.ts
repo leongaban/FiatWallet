@@ -1,9 +1,5 @@
-import * as page from './page'
-import * as header from './header'
-import * as prices from './prices'
-
-export {
-  page,
-  header,
-  prices
-};
+export * from './page'
+export * from './header'
+export * from './prices'
+export * from './buttons'
+export * from './wallets'

@@ -1,7 +1,10 @@
 import React from 'react'
 
+import { IWallet } from '../../shared/types'
+
 interface IProps {
   currency: string;
+  wallets: IWallet[];
   onChangeCurrency(currency: string): void;
 }
 
@@ -28,9 +31,10 @@ export default class CurrencySelector extends React.PureComponent<IProps, IState
           value={this.state.currency}
           onChange={this.handleChange}
         >
-          <option value="USD">USD</option>
-          <option value="EUR">EURO</option>
-          <option value="GBP">GBP</option>
+          {this.props.wallets.map((wallet) => {
+            const type = wallet.currency;
+            return <option key={type} value={type}>{type}</option>
+          })}
         </select>
       </section>
     );

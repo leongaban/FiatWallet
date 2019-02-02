@@ -15,6 +15,6 @@ export default () => (
     <meta name="category" content="finance"/>
     <meta name="rating" content="General"/>
     <meta name="revisit-after" content="7 days"></meta>
-    <link href="https://fonts.googleapis.com/css?family=Inconsolata|Oswald:300" rel="stylesheet"></link>
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata|Oswald:300,700" rel="stylesheet"></link>
   </Head>
 )

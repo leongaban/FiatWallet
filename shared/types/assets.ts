@@ -2,11 +2,17 @@ export interface IinitialState {
   assets: IAsset[];
   wallets: any[];
   currency: string;
+  view: string;
 }
 
 export interface IAsset {
   currency: string;
   rate: number;
+}
+
+export interface IWallet {
+  currency: string;
+  amount: number;
 }
 
 export interface IRatesRes {

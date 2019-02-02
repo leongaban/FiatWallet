@@ -1,9 +1,7 @@
 import React from 'react'
 
-import { prices } from '../../styles'
+import { PriceList } from '../../styles'
 import { IAsset } from '../../shared/types'
-
-const { PriceList } = prices;
 
 interface IProps {
   assets: IAsset[]
@@ -25,9 +23,9 @@ export default class Prices extends React.PureComponent<IProps> {
       <PriceList>
         <ul>
           {assets && assets.map((asset) => (renderAssetRow(asset)))}
-          <li><span>Loading asset rates...</span></li>
+          {!assets && <li><span>Loading asset rates...</span></li>}
         </ul>
       </PriceList>
     );
-  }     
+  }
 }

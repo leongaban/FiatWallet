@@ -8,19 +8,19 @@ const { PHASE_PRODUCTION_SERVER } =
 // module.exports = (phase, { defaultConfig }) => {
 //   if (phase === PHASE_PRODUCTION_SERVER) {
 //     // Config used to run in production.
-//     return {
-//       target: 'serverless'
-//     };
+//     return {};
 //   }
 
 //   // ✅ Put the require call here.
+//   const withTypescript = require('@zeit/next-typescript');
 //   const withCSS = require('@zeit/next-sass');
 
-//   return withCSS();
+//   return withTypescript(withCSS());
 // };
 
+const withTypescript = require('@zeit/next-typescript');
 const withCSS = require('@zeit/next-sass');
 
-module.exports = withCSS({
+module.exports = withTypescript(withCSS({
   target: 'serverless'
-});
+}));

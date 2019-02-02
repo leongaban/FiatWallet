@@ -1,14 +1,27 @@
 import React from 'react'
 
-export default class Navigation extends React.PureComponent {
+import { NavButton, NavSection } from '../../styles'
+
+interface IProps {
+  onChangeView(view: string): void;
+}
+
+export default class Navigation extends React.PureComponent<IProps> {
+  constructor(props: IProps) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
   public render() {
     return (
-      <section>
-        <nav>
-          <button>Prices</button>
-          <button>Wallets</button>
-        </nav>
-      </section>
+      <NavSection>
+        <NavButton onClick={() => this.handleChange('prices')}>Prices</NavButton>
+        <NavButton onClick={() => this.handleChange('wallets')}>Wallets</NavButton>
+      </NavSection>
     );
-  }     
+  }
+  
+  handleChange(view: string) {
+    this.props.onChangeView(view);
+  }
 }
