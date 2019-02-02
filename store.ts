@@ -2,13 +2,13 @@ import { createStore, applyMiddleware } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import thunkMiddleware from 'redux-thunk'
 
-import { getLatest } from './services/api'
+import { getEURrates } from './services/api'
 import { IinitialState } from './shared/types'
 
 const defaultInitialState = {
   assets: [],
   wallets: [],
-  currency: 'EUR'
+  currency: 'USD'
 }
 
 // ACTION TYPES
@@ -39,7 +39,7 @@ export const actionGetRates = (rates: any) => ({
 });
 
 // ACTIONS
-export const startGetRates = (currency: string) => (dispatch: any) => getLatest(currency).then((ratesArray) => {
+export const startGetRates = () => (dispatch: any) => getEURrates().then((ratesArray) => {
   dispatch(actionGetRates(ratesArray));
 });
 

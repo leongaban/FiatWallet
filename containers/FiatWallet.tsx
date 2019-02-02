@@ -3,13 +3,14 @@ import { connect } from 'react-redux'
 
 import { startGetRates } from '../store'
 import { IinitialState, IAsset, IRatesRes } from '../shared/types'
+import { GBPUSD, EURGBP, EURUSD } from '../shared/models'
 import { CurrencySelector, Header, Prices, Navigation } from '../components'
 
 interface IProps {
   assets: IAsset[];
   wallets: any[];
   currency: string;
-  startGetRates(currency: string): IRatesRes;
+  startGetRates(): IRatesRes;
 }
 
 interface IStateProps {
@@ -21,7 +22,7 @@ interface IStateProps {
 class FiatWallet extends React.PureComponent<IProps, IStateProps> {
   componentDidMount() {
     const { currency, startGetRates } = this.props;
-    startGetRates(currency);
+    startGetRates();
   }
 
   public render() {
@@ -42,11 +43,12 @@ class FiatWallet extends React.PureComponent<IProps, IStateProps> {
 
   handleChangeCurrency(currency: string) {
     console.log('handleChangeCurrency', currency);
+    // this.props.startGetRates(currency);
   }
 }
 
 const mapDispatchToProps = (dispatch: any) => ({
-  startGetRates: (currency: string) => dispatch(startGetRates(currency))
+  startGetRates: () => dispatch(startGetRates())
 });
 
 const mapStateToProps = (state: IinitialState) => ({
