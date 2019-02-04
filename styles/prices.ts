@@ -6,12 +6,14 @@ export const PriceList = styled.section`
   height: 24rem;
 
   ul {
-    padding: 0;
+    padding: 1rem;
+    background: ${props => props.theme.lightgrey};
   }
 
   li {
     margin: 0 0 0.5rem;
     padding: 0;
+    color: ${props => props.theme.darkBlue};
     list-style: none;
     text-align: left;
   }

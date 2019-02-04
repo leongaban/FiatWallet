@@ -1,16 +1,16 @@
 import React from 'react'
 
-import { header } from '../../styles'
+import { HeaderStyle } from '../../styles'
 
-const { HeaderStyle } = header;
+interface IProps {
+  total: string;
+}
 
-export default class Header extends React.PureComponent {
-  public render() {
-    return (
-      <HeaderStyle>
-        <h1>My Fiat Wallet</h1>
-        <h2><span>$1600</span> total value.</h2>
-      </HeaderStyle>
-    );
-  }     
+export default function Header(props: IProps) {
+  return (
+    <HeaderStyle>
+      <h1>My Fiat Wallet</h1>
+      <h2><span>{props.total}</span> total value.</h2>
+    </HeaderStyle>
+  );
 }

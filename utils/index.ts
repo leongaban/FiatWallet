@@ -1,5 +1,2 @@
-import * as converters from './converters'
-
-export {
-  converters
-};
+export * from './converters'
+export * from './math'

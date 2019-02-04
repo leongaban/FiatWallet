@@ -8,6 +8,8 @@ export const StyledPage = styled.div`
 
 export const Inner = styled.div`
   max-width: ${props => props.theme.maxWidth};
+  min-width: 25rem;
+  height: 40rem;
   margin: 10rem auto;
   padding: 2.5rem;
   border: 1px solid #fff;
