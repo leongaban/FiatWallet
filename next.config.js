@@ -5,15 +5,22 @@ const { PHASE_PRODUCTION_SERVER } =
       ? require('next/constants')
       : require('next-server/constants');
 
-module.exports = (phase, { defaultConfig }) => {
-  if (phase === PHASE_PRODUCTION_SERVER) {
-    // Config used to run in production.
-    return {};
-  }
+// module.exports = (phase, { defaultConfig }) => {
+//   if (phase === PHASE_PRODUCTION_SERVER) {
+//     // Config used to run in production.
+//     return {};
+//   }
 
-  // ✅ Put the require call here.
-  const withTypescript = require('@zeit/next-typescript');
-  const withCSS = require('@zeit/next-sass');
+//   // ✅ Put the require call here.
+//   const withTypescript = require('@zeit/next-typescript');
+//   const withCSS = require('@zeit/next-sass');
 
-  return withTypescript(withCSS());
-};
+//   return withTypescript(withCSS());
+// };
+
+const withTypescript = require('@zeit/next-typescript');
+const withCSS = require('@zeit/next-sass');
+
+module.exports = withTypescript(withCSS({
+  target: 'serverless'
+}));

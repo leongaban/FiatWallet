@@ -40,8 +40,10 @@
     "babel-plugin-sass-vars": "^0.2.1",
     "babel-plugin-styled-components": "^1.10.0",
     "enzyme-to-json": "^3.3.4",
-    "jest": "^23.6.0"
+    "jest": "^23.6.0",
+    "sass-lint": "^1.12.1"
   },
+  "sasslintConfig": "<rootDir>/sass-lint.yml",
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>/jest.setup.js",
     "testPathIgnorePatterns": [
