@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { startGetRates, setCurrency, setView } from '../store'
+import { startGetRates, setCurrency, setView, setWalletView } from '../store'
 import { IinitialState, IAsset, IWallet, IRatesRes } from '../shared/types'
 import { numberWithCommas, roundFloat } from '../utils'
 import { CurrencySelector, Header, Prices, Navigation, Wallets } from '../components'
@@ -83,15 +83,11 @@ class FiatWallet extends React.PureComponent<IProps> {
       return { convertedRate: 0 };
     });
 
-    console.log('convertedRates', convertedRates);
-
     const total = convertedRates.reduce(function(sum: number, wallet: IConvertedRate) {
       return sum + wallet.convertedRate;
     }, 0);
 
-    console.log('total', total);
-
-    return roundFloat(total, 2).toString();
+    return numberWithCommas(roundFloat(total, 2)).toString();
   }
 }
 
@@ -108,6 +104,6 @@ const mapStateToProps = (state: IinitialState) => ({
   view: state.view
 });
 
-export const BoardJest = FiatWallet;
+export const FiatWalletJest = FiatWallet;
 
 export default connect(mapStateToProps, mapDispatchToProps)(FiatWallet);

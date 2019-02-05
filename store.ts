@@ -18,14 +18,16 @@ const defaultInitialState = {
     amount: 10000
   }],
   currency: 'USD',
-  view: 'prices' // wallets, wallet, exchange, deposit, withdraw
+  view: 'prices', // wallets, wallet, transactions
+  walletView: 'ALL' // USD, EUR, CHF
 }
 
 // ACTION TYPES
 export const actionTypes = {
   GET_RATES: 'GET_RATES',
   SET_CURRENCY: 'SET_CURRENCY',
-  SET_VIEW: 'SET_VIEW'
+  SET_VIEW: 'SET_VIEW',
+  SET_WALLET_VIEW: 'SET_WALLET_VIEW'
 }
 
 // REDUCER /////////////////////////////////////////////////////////
@@ -55,6 +57,14 @@ export const reducer = (state = defaultInitialState, action: any) => {
       };
     }
 
+    case actionTypes.SET_WALLET_VIEW: {
+      const { payload } = action;
+      return {
+        ...state,
+        walletView: payload
+      };
+    }
+
     default:
       return state;
   }
@@ -76,6 +86,11 @@ export const actionSetView = (view: string) => ({
   payload: view
 });
 
+export const actionSetWalletView = (walletView: string) => ({
+  type: actionTypes.SET_WALLET_VIEW,
+  payload: walletView
+});
+
 // ACTIONS //////////////////////////////////////////////////////////
 export const startGetRates = (currency: string) => (dispatch: any) =>
   getEURrates(currency).then((ratesArray) => {
@@ -87,6 +102,9 @@ export const setCurrency = (currency: string) => (dispatch: any) =>
 
 export const setView = (view: string) => (dispatch: any) =>
   dispatch(actionSetView(view));
+
+export const setWalletView = (walletView: string) => (dispatch: any) =>
+  dispatch(actionSetWalletView(walletView));
 
 export function initializeStore(initialState: IinitialState = defaultInitialState) {
   return createStore(
