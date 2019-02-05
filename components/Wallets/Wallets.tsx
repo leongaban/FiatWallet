@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import { setWalletView } from '../../store'
+import WalletsList from './WalletsList'
 import { IAsset, IWallet } from '../../shared/types'
 import { WalletsListContainer, WalletsListItem, WalletInfo } from '../../styles'
 import { numberWithCommas, roundFloat } from '../../utils'
@@ -22,28 +23,22 @@ class Wallets extends React.PureComponent<IProps> {
   }
 
   public render() {
-    const { currency, walletView } = this.props;
+    const { currency, wallets, walletView } = this.props;
  
     return (
       <WalletsListContainer>
-        <section>
-          {this.props.wallets.map((wallet) =>
-            (<WalletsListItem
-              key={wallet.currency}
-              onClick={() => this.handleWalletSelect(wallet.currency)}
-             >
-              <h1>{wallet.currency} Wallet</h1>
-              <WalletInfo>
-                <h2>Amount: {numberWithCommas(wallet.amount)}</h2>
-                <h2>{this.calculateValue(wallet)} ({currency})</h2>
-              </WalletInfo>
-            </WalletsListItem>))}
-        </section>
+        <WalletsList
+          currency={currency}
+          wallets={wallets}
+          handleWalletSelect={this.handleWalletSelect}
+          calculateValue={this.calculateValue}
+        />
       </WalletsListContainer>
     );
   }
 
   handleWalletSelect(walletView: string) {
+    console.log('handleWalletSelect', walletView);
     this.props.setWalletView(walletView);
   }
 
