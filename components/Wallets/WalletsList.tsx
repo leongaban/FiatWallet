@@ -16,8 +16,8 @@ export default function WalletsList(props: IProps) {
     <section>
       {props.wallets.map((wallet) =>
         (<WalletsListItem
-          key={wallet.currency}
-          onClick={() => props.handleWalletSelect(wallet.currency)}
+            key={wallet.currency}
+            onClick={() => props.handleWalletSelect(wallet.currency)}
           >
           <h1>{wallet.currency} Wallet</h1>
           <WalletInfo>

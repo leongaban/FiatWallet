@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { startGetRates, setCurrency, setView, setWalletView } from '../store'
+import { startGetRates, setCurrency, setView } from '../store'
 import { IinitialState, IAsset, IWallet, IRatesRes } from '../shared/types'
 import { numberWithCommas, roundFloat } from '../utils'
 import { CurrencySelector, Header, Prices, Navigation, Wallets } from '../components'
@@ -20,10 +20,10 @@ interface IConvertedRate {
   convertedRate: number;
 }
 
-const renderView = ({assets, currency, wallets, view}: IProps) => {
+const renderView = ({assets, currency, view}: IProps) => {
   switch (view) {
     case 'wallets':
-      return <Wallets assets={assets} currency={currency} wallets={wallets} />;
+      return <Wallets assets={assets} currency={currency} />;
     default: 
       return <Prices assets={assets} />;
   }

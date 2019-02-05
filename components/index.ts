@@ -5,4 +5,5 @@ export { default as Prices } from './Prices/Prices';
 export { default as Page } from './Page/Page';
 export { default as Navigation } from './Navigation/Navigation';
 export { default as Wallets } from './Wallets/Wallets';
+export { default as WalletsList } from './Wallets/WalletsList';
 export { default as Wallet } from './Wallets/Wallet';
