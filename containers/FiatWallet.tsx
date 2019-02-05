@@ -20,10 +20,10 @@ interface IConvertedRate {
   convertedRate: number;
 }
 
-const renderView = ({assets, currency, wallets, view}: IProps) => {
+const renderView = ({assets, currency, view}: IProps) => {
   switch (view) {
     case 'wallets':
-      return <Wallets assets={assets} currency={currency} wallets={wallets} />;
+      return <Wallets assets={assets} currency={currency} />;
     default: 
       return <Prices assets={assets} />;
   }
@@ -43,7 +43,7 @@ class FiatWallet extends React.PureComponent<IProps> {
   }
 
   public render() {
-    const { currency, wallets } = this.props;
+    const { currency, wallets, view } = this.props;
 
     return (
       <section>
@@ -54,7 +54,7 @@ class FiatWallet extends React.PureComponent<IProps> {
         />
         <Header total={this.calculateTotalValue(wallets)}/>
         {renderView(this.props)}
-        <Navigation onChangeView={this.handleChangeView} />
+        <Navigation view={view} onChangeView={this.handleChangeView} />
       </section>
     );
   }
@@ -83,15 +83,11 @@ class FiatWallet extends React.PureComponent<IProps> {
       return { convertedRate: 0 };
     });
 
-    console.log('convertedRates', convertedRates);
-
     const total = convertedRates.reduce(function(sum: number, wallet: IConvertedRate) {
       return sum + wallet.convertedRate;
     }, 0);
 
-    console.log('total', total);
-
-    return roundFloat(total, 2).toString();
+    return numberWithCommas(roundFloat(total, 2)).toString();
   }
 }
 
@@ -108,6 +104,6 @@ const mapStateToProps = (state: IinitialState) => ({
   view: state.view
 });
 
-export const BoardJest = FiatWallet;
+export const FiatWalletJest = FiatWallet;
 
 export default connect(mapStateToProps, mapDispatchToProps)(FiatWallet);
