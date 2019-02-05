@@ -43,7 +43,7 @@ class FiatWallet extends React.PureComponent<IProps> {
   }
 
   public render() {
-    const { currency, wallets } = this.props;
+    const { currency, wallets, view } = this.props;
 
     return (
       <section>
@@ -54,7 +54,7 @@ class FiatWallet extends React.PureComponent<IProps> {
         />
         <Header total={this.calculateTotalValue(wallets)}/>
         {renderView(this.props)}
-        <Navigation onChangeView={this.handleChangeView} />
+        <Navigation view={view} onChangeView={this.handleChangeView} />
       </section>
     );
   }
