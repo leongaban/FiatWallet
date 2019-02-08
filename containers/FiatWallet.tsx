@@ -4,11 +4,19 @@ import { connect } from 'react-redux'
 import { startGetRates, setCurrency, setView } from '../store'
 import { IinitialState, IAsset, IWallet, IRatesRes } from '../shared/types'
 import { numberWithCommas, roundFloat } from '../utils'
-import { CurrencySelector, Header, Prices, Navigation, Wallets } from '../components'
+import {
+  CurrencySelector,
+  Header,
+  Prices,
+  Navigation,
+  Wallets,
+  ExchangeModal
+} from '../components'
 
 interface IProps {
   assets: IAsset[];
   wallets: IWallet[];
+  exchangeModal: boolean;
   walletView: string;
   currency: string;
   view: string;
@@ -20,6 +28,10 @@ interface IProps {
 interface IConvertedRate {
   convertedRate: number;
 }
+
+const renderExchangeModal = ({walletView, wallets}: IProps) => {
+  return <ExchangeModal wallet={walletView} wallets={wallets}/>
+};
 
 const renderView = ({assets, currency, view}: IProps) => {
   switch (view) {
@@ -44,8 +56,7 @@ class FiatWallet extends React.PureComponent<IProps> {
   }
 
   public render() {
-    const { currency, wallets, view, walletView } = this.props;
-    console.log('walletView', walletView);
+    const { currency, wallets, view, exchangeModal } = this.props;
 
     return (
       <section>
@@ -55,6 +66,7 @@ class FiatWallet extends React.PureComponent<IProps> {
           onChangeCurrency={this.handleChangeCurrency}
         />
         <Header total={this.calculateTotalValue(wallets)}/>
+        {exchangeModal && renderExchangeModal(this.props)}
         {renderView(this.props)}
         <Navigation view={view} onChangeView={this.handleChangeView} />
       </section>
@@ -105,6 +117,7 @@ const mapStateToProps = (state: IinitialState) => ({
   currency: state.currency,
   view: state.view,
   walletView: state.walletView,
+  exchangeModal: state.exchangeModal
 });
 
 export const FiatWalletJest = FiatWallet;

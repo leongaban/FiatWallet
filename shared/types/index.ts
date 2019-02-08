@@ -5,6 +5,7 @@ export interface IinitialState {
   transactions: any[];
   view: string;
   walletView: string;
+  exchangeModal: boolean;
 }
 
 export interface IAsset {

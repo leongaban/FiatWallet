@@ -1,7 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { setWalletView, depositIntoWallet, withdrawIntoWallet } from '../../store'
+import {
+  setWalletView,
+  depositIntoWallet,
+  withdrawIntoWallet,
+  toggleExchangeModal
+} from '../../store'
 import { IWallet } from '../../shared/types'
 import { numberWithCommas } from '../../utils'
 import { WalletView, WalletInfo, WalletInputGroup, WideButton } from '../../styles'
@@ -15,6 +20,7 @@ interface IProps {
   setWalletView(walletView: string): void;
   depositIntoWallet(walletName: string, depositAmount: number): void;
   withdrawIntoWallet(walletName: string, withdrawAmount: number): void;
+  toggleExchangeModal(exchangeModal: boolean): void;
   calculateValue(wallet: IWallet): void;
 }
 
@@ -103,7 +109,7 @@ class Wallet extends React.PureComponent<IProps, IState> {
 
   handleExchangeClick() {
     console.log('handleExchangeClick');
-    this.props.setWalletView('exchange');
+    this.props.toggleExchangeModal(true);
   }
 
   handleBack() {
@@ -117,7 +123,9 @@ const mapDispatchToProps = (dispatch: any) => ({
   depositIntoWallet: (walletName: string, depositAmount: number) =>
     dispatch(depositIntoWallet(walletName, depositAmount)),
   withdrawIntoWallet: (walletName: string, withdrawAmount: number) =>
-    dispatch(withdrawIntoWallet(walletName, withdrawAmount))
+    dispatch(withdrawIntoWallet(walletName, withdrawAmount)),
+  toggleExchangeModal: (exchangeModal: boolean) =>
+    dispatch(toggleExchangeModal(exchangeModal))
 });
 
 const mapStateToProps = (state: { walletView: string }) => ({

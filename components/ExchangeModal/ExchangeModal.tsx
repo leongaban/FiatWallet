@@ -7,7 +7,7 @@ import { IWallet } from '../../shared/types'
 // import { WalletView } from '../../styles'
 
 interface IProps {
-  wallet?: IWallet;
+  wallet: string;
   wallets: IWallet[];
 }
 
@@ -25,9 +25,10 @@ class ExchangeModal extends React.PureComponent<IProps, IState> {
   }
 
   public render() {
+    console.log('ExchangeModal', this.props);
     return (
       <div>
-        Exchange
+        Exchange Currencies
       </div>
     );
   }
