@@ -7,12 +7,12 @@ import {
   withdrawIntoWallet,
   toggleExchangeModal
 } from '../../store'
-import { IWallet } from '../../shared/types'
+import { IAsset, IWallet } from '../../shared/types'
 import { numberWithCommas } from '../../utils'
 import { WalletView, WalletInfo, WalletInputGroup, WideButton } from '../../styles'
-import ExchangeModal from '../ExchangeModal/ExchangeModal';
 
 interface IProps {
+  assets: IAsset[],
   view: string;
   walletView: string;
   wallet?: IWallet;
@@ -21,7 +21,7 @@ interface IProps {
   depositIntoWallet(walletName: string, depositAmount: number): void;
   withdrawIntoWallet(walletName: string, withdrawAmount: number): void;
   toggleExchangeModal(exchangeModal: boolean): void;
-  calculateValue(wallet: IWallet): void;
+  calculateValue(wallet: IWallet, assets: IAsset[]): void;
 }
 
 interface IState {
@@ -47,19 +47,17 @@ class Wallet extends React.PureComponent<IProps, IState> {
   }
 
   public render() {
-    const { calculateValue, wallet, walletView } = this.props;
+    const { assets, calculateValue, wallet, walletView } = this.props;
     const { depositAmount, withdrawAmount } = this.state;
     const amount = wallet && wallet.amount;
     const currency = wallet && wallet.currency;
-
-    console.log('walletView', walletView);
 
     return (
       <WalletView>
         <h1>{currency}</h1>
         <WalletInfo>
           <h2>Amount: {numberWithCommas(amount)}</h2>
-          <h2>{wallet && calculateValue(wallet)} ({currency})</h2>
+          <h2>{wallet && calculateValue(wallet, assets)} ({currency})</h2>
         </WalletInfo>
         <WalletInputGroup>
           <input
@@ -108,11 +106,11 @@ class Wallet extends React.PureComponent<IProps, IState> {
   }
 
   handleExchangeClick() {
-    console.log('handleExchangeClick');
     this.props.toggleExchangeModal(true);
   }
 
   handleBack() {
+    this.props.toggleExchangeModal(false);
     this.props.setWalletView('ALL');
   }
 }
@@ -128,7 +126,8 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(toggleExchangeModal(exchangeModal))
 });
 
-const mapStateToProps = (state: { walletView: string }) => ({
+const mapStateToProps = (state: { assets: IAsset[], walletView: string }) => ({
+  assets: state.assets,
   walletView: state.walletView
 });
 

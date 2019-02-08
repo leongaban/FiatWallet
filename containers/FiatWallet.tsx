@@ -36,9 +36,9 @@ const renderExchangeModal = ({walletView, wallets}: IProps) => {
 const renderView = ({assets, currency, view}: IProps) => {
   switch (view) {
     case 'wallets':
-      return <Wallets assets={assets} currency={currency} />;
+      return <Wallets assets={assets} currency={currency}/>;
     default: 
-      return <Prices assets={assets} />;
+      return <Prices assets={assets}/>;
   }
 };
 

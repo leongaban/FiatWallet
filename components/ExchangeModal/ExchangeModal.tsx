@@ -1,14 +1,16 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-// import { setWalletView } from '../../store'
-import { IWallet } from '../../shared/types'
-// import { numberWithCommas } from '../../utils'
-// import { WalletView } from '../../styles'
+import { toggleExchangeModal } from '../../store'
+import { IAsset, IWallet } from '../../shared/types'
+import { ExchangeSection, ExchangeList, CloseButton } from '../../styles'
+import { calculateValue, numberWithCommas } from '../../utils'
 
 interface IProps {
+  assets: IAsset[];
   wallet: string;
   wallets: IWallet[];
+  toggleExchangeModal(exchangeModal: boolean): void;
 }
 
 interface IState {
@@ -22,31 +24,48 @@ class ExchangeModal extends React.PureComponent<IProps, IState> {
     this.state = {
       view: 'selection' // exchange
     };
+
+    this.handleCloseButton = this.handleCloseButton.bind(this);
   }
 
   public render() {
-    console.log('ExchangeModal', this.props);
+    const { assets, wallet: currentWallet, wallets } = this.props;
+    const filteredWallets = wallets.filter((wallet) => wallet.currency !== currentWallet);
+
     return (
-      <div>
-        Exchange Currencies
-      </div>
+      <ExchangeSection>
+        <CloseButton onClick={this.handleCloseButton}>Close (X)</CloseButton>
+        <h1>Exchange ({currentWallet})</h1>
+        <h2>Select currency for exchange</h2>
+        <ExchangeList>
+          {filteredWallets.map((wallet) => (
+            <li key={wallet.currency}>
+              <button>
+                <span>{wallet.currency}</span>
+                <span>{numberWithCommas(wallet.amount)}</span>
+                <span>{calculateValue(wallet, assets)} ({currentWallet})</span>
+              </button>
+            </li>
+          ))}
+        </ExchangeList>
+      </ExchangeSection>
     );
+  }
+
+  handleCloseButton() {
+    this.props.toggleExchangeModal(false);
   }
 }
 
 const mapDispatchToProps = (dispatch: any) => ({
-  // setWalletView: (walletView: string) =>
-  //   dispatch(setWalletView(walletView)),
-  // depositIntoWallet: (walletName: string, depositAmount: number) =>
-  //   dispatch(depositIntoWallet(walletName, depositAmount)),
-  // withdrawIntoWallet: (walletName: string, withdrawAmount: number) =>
-  //   dispatch(withdrawIntoWallet(walletName, withdrawAmount))
+  toggleExchangeModal: (exchangeModal: boolean) =>
+    dispatch(toggleExchangeModal(exchangeModal))
 });
 
-// const mapStateToProps = (state: { wallets: IWallet[] }) => ({
-//   wallets: state.wallets
-// });
+const mapStateToProps = (state: { assets: IAsset[] }) => ({
+  assets: state.assets
+});
 
 export const ExchangeModalJest = ExchangeModal;
 
-export default connect(null, mapDispatchToProps)(ExchangeModal);
+export default connect(mapStateToProps, mapDispatchToProps)(ExchangeModal);
