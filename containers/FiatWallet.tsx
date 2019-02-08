@@ -9,6 +9,7 @@ import { CurrencySelector, Header, Prices, Navigation, Wallets } from '../compon
 interface IProps {
   assets: IAsset[];
   wallets: IWallet[];
+  walletView: string;
   currency: string;
   view: string;
   startGetRates(currency: string): IRatesRes;
@@ -43,7 +44,8 @@ class FiatWallet extends React.PureComponent<IProps> {
   }
 
   public render() {
-    const { currency, wallets, view } = this.props;
+    const { currency, wallets, view, walletView } = this.props;
+    console.log('walletView', walletView);
 
     return (
       <section>
@@ -101,7 +103,8 @@ const mapStateToProps = (state: IinitialState) => ({
   assets: state.assets,
   wallets: state.wallets,
   currency: state.currency,
-  view: state.view
+  view: state.view,
+  walletView: state.walletView,
 });
 
 export const FiatWalletJest = FiatWallet;

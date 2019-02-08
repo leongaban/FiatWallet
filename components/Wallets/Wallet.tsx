@@ -4,15 +4,12 @@ import { connect } from 'react-redux'
 import { setWalletView, depositIntoWallet, withdrawIntoWallet } from '../../store'
 import { IWallet } from '../../shared/types'
 import { numberWithCommas } from '../../utils'
-import {
-  WalletView,
-  WalletInfo,
-  WalletInputGroup,
-  WideButton
-} from '../../styles'
+import { WalletView, WalletInfo, WalletInputGroup, WideButton } from '../../styles'
+import ExchangeModal from '../ExchangeModal/ExchangeModal';
 
 interface IProps {
   view: string;
+  walletView: string;
   wallet?: IWallet;
   wallets: IWallet[];
   setWalletView(walletView: string): void;
@@ -39,14 +36,17 @@ class Wallet extends React.PureComponent<IProps, IState> {
     this.handleChangeWithdraw = this.handleChangeWithdraw.bind(this);
     this.handleDeposit = this.handleDeposit.bind(this);
     this.handleWithdraw = this.handleWithdraw.bind(this);
+    this.handleExchangeClick = this.handleExchangeClick.bind(this);
     this.handleBack = this.handleBack.bind(this);
   }
 
   public render() {
-    const { wallet, calculateValue } = this.props;
+    const { calculateValue, wallet, walletView } = this.props;
     const { depositAmount, withdrawAmount } = this.state;
     const amount = wallet && wallet.amount;
     const currency = wallet && wallet.currency;
+
+    console.log('walletView', walletView);
 
     return (
       <WalletView>
@@ -72,7 +72,7 @@ class Wallet extends React.PureComponent<IProps, IState> {
           <button onClick={this.handleWithdraw}>Withdraw</button>
         </WalletInputGroup>
         <section>
-          <WideButton>Exchange</WideButton>
+          <WideButton onClick={this.handleExchangeClick}>Exchange</WideButton>
           <WideButton onClick={this.handleBack}>« Back to Wallets</WideButton>
         </section>
       </WalletView>
@@ -99,6 +99,11 @@ class Wallet extends React.PureComponent<IProps, IState> {
     const { withdrawAmount } = this.state;
     const { wallet, withdrawIntoWallet } = this.props;
     wallet && withdrawIntoWallet(wallet.currency, withdrawAmount);
+  }
+
+  handleExchangeClick() {
+    console.log('handleExchangeClick');
+    this.props.setWalletView('exchange');
   }
 
   handleBack() {

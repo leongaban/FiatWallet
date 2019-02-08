@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 export const WalletsListContainer = styled.div`
   display: flex;

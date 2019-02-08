@@ -1,9 +1,9 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 export const NavSection = styled.section`
   display: flex;
   flex-direction: row;
-`
+`;
 
 export const NavButton = styled.button`
   opacity: 0.7;

@@ -20,7 +20,8 @@ const defaultInitialState = {
   }],
   transactions: [],
   view: 'prices', // wallets, wallet, transactions
-  walletView: 'ALL' // USD, EUR, CHF,
+  walletView: 'ALL', // USD, EUR, CHF,
+  exchangeModal: false
 };
 
 // ACTION TYPES
@@ -31,7 +32,7 @@ export const actionTypes = {
   SET_WALLET_VIEW: 'SET_WALLET_VIEW',
   DEPOSIT_WALLET: 'DEPOSIT_WALLET',
   WITHDRAW_WALLET: 'WITHDRAW_WALLET',
-  EXCHANGE_WALLET: 'EXCHANGE_WALLET'
+  TOGGLE_EXCHANGE_MODAL: 'TOGGLE_EXCHANGE_MODAL'
 }
 
 // REDUCER /////////////////////////////////////////////////////////
@@ -55,6 +56,11 @@ export const reducer = (state = defaultInitialState, action: any) => {
     case actionTypes.SET_WALLET_VIEW: {
       const { payload: walletView } = action;
       return { ...state, walletView };
+    }
+
+    case actionTypes.TOGGLE_EXCHANGE_MODAL: {
+      const { payload: exchangeModal } = action;
+      return { ...state, exchangeModal };
     }
 
     case actionTypes.DEPOSIT_WALLET: {
@@ -111,6 +117,11 @@ export const actionSetWalletView = (walletView: string) => ({
   payload: walletView
 });
 
+export const actionToggleExchangeModal = (exchangeModal: boolean) => ({
+  type: actionTypes.TOGGLE_EXCHANGE_MODAL,
+  payload: exchangeModal
+});
+
 export const actionWalletDeposit = (walletName: string, depositAmount: number) => {
   return ({
     type: actionTypes.DEPOSIT_WALLET,
@@ -151,6 +162,9 @@ export const depositIntoWallet = (walletName: string, depositAmount: number) => 
 
 export const withdrawIntoWallet = (walletName: string, withdrawAmount: number) => (dispatch: any) =>
 dispatch(actionWalletWithdraw(walletName, withdrawAmount));
+
+export const toggleExchangeModal = (exchangeModal: boolean) => (dispatch: any) =>
+  dispatch(actionToggleExchangeModal(exchangeModal));
 
 export function initializeStore(initialState: IinitialState = defaultInitialState) {
   return createStore(
