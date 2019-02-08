@@ -1,7 +1,8 @@
 export interface IinitialState {
   assets: IAsset[];
-  wallets: any[];
   currency: string;
+  wallets: any[];
+  transactions: any[];
   view: string;
 }
 

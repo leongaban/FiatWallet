@@ -7,6 +7,7 @@ import { IinitialState } from './shared/types'
 
 const defaultInitialState = {
   assets: [],
+  currency: 'USD',
   wallets: [{
     currency: 'USD',
     amount: 100
@@ -17,10 +18,10 @@ const defaultInitialState = {
     currency: 'CHF',
     amount: 10000
   }],
-  currency: 'USD',
+  transactions: [],
   view: 'prices', // wallets, wallet, transactions
   walletView: 'ALL' // USD, EUR, CHF,
-}
+};
 
 // ACTION TYPES
 export const actionTypes = {
@@ -37,23 +38,23 @@ export const actionTypes = {
 export const reducer = (state = defaultInitialState, action: any) => {
   switch (action.type) {
     case actionTypes.GET_RATES: {
-      const { payload } = action;
-      return { ...state, assets: payload };
+      const { payload: assets } = action;
+      return { ...state, assets };
     }
 
     case actionTypes.SET_CURRENCY: {
-      const { payload } = action;
-      return { ...state, currency: payload };
+      const { payload: currency } = action;
+      return { ...state, currency };
     }
 
     case actionTypes.SET_VIEW: {
-      const { payload } = action;
-      return { ...state, view: payload };
+      const { payload: view } = action;
+      return { ...state, view };
     }
 
     case actionTypes.SET_WALLET_VIEW: {
-      const { payload } = action;
-      return { ...state, walletView: payload };
+      const { payload: walletView } = action;
+      return { ...state, walletView };
     }
 
     case actionTypes.DEPOSIT_WALLET: {
