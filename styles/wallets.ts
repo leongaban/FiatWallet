@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 export const WalletsListContainer = styled.div`
   display: flex;
@@ -24,9 +24,7 @@ export const WalletsListItem = styled.section`
 
   h1, h2 { margin-bottom: 0.5rem; }
 
-  &:first-child {
-    margin-top: 2rem;
-  }
+  &:first-child { margin-top: 2rem; }
 
   &:hover {
     color: ${props => props.theme.offWhite};
@@ -41,7 +39,55 @@ export const WalletInfo = styled.section`
   justify-content: space-between;
   flex-direction: row;
 
-  h2 {
-    align-self: flex-end;
-  }
+  h2 { align-self: flex-end; }
 `
+
+export const WalletView = styled(WalletsListItem)`
+  height: 22.5rem;
+
+  button {
+    cursor: pointer;
+
+    &:hover {
+      opacity: 1;
+      color: ${props => props.theme.offWhite};
+      background: ${props => props.theme.darkPurple};
+      transition: all 200ms ease-in-out;
+    }
+  };
+
+  &:hover {
+    color: ${props => props.theme.black};
+    border: 1px solid ${props => props.theme.cyan};
+    background: ${props => props.theme.cyan};
+    transition: none;
+    cursor: default;
+  }
+`;
+
+export const WalletInputGroup = styled.section`
+  margin: 1rem 0;
+  width: 100%;
+
+  input { width: 6rem; }
+
+  button {
+    margin-left: 1rem;
+    width: 10.5rem;
+  }
+
+  input,
+  button {
+    padding: 1rem;
+    font-size: 1rem;
+  }
+`;
+
+export const WideButton = styled.button`
+  margin-top: 0.5rem;
+  padding: 1rem;
+  width: 100%;
+  height: 3rem;
+  font-size: 1rem;
+  line-height: 0.5rem;
+`;

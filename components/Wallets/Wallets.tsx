@@ -1,44 +1,70 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
-import { IAsset, IWallet } from '../../shared/types'
-import { WalletsListContainer, WalletsListItem, WalletInfo } from '../../styles'
-import { numberWithCommas, roundFloat } from '../../utils'
+import { setWalletView } from '../../store'
+import { WalletsList, Wallet } from '../' // components
+import { IAsset, IWallet, IWalletsState } from '../../shared/types'
+import { WalletsListContainer } from '../../styles'
+import { calculateValue } from '../../utils'
 
 interface IProps {
   assets: IAsset[];
   currency: string;
   wallets: IWallet[];
+  walletView: string;
+  setWalletView(walletView: string): void;
 }
 
-export default class Navigation extends React.PureComponent<IProps> {
+const pluckWallet = (walletView: string, wallets: IWallet[]) =>
+  wallets.filter((wallet) => wallet.currency === walletView)[0];
+
+class Wallets extends React.PureComponent<IProps> {
   constructor(props: IProps) {
     super(props);
-    this.calculateValue = this.calculateValue.bind(this);
+    this.handleWalletSelect = this.handleWalletSelect.bind(this);
   }
 
   public render() {
-    const { currency } = this.props;
+    const { assets, currency, wallets, walletView } = this.props;
+
+    const walletListProps = {
+      assets,
+      currency,
+      wallets,
+      handleWalletSelect: this.handleWalletSelect,
+      calculateValue
+    };
+
+    const selectedWallet = walletView !== 'ALL' ? pluckWallet(walletView, wallets) : undefined;
  
     return (
       <WalletsListContainer>
-        <section>
-          {this.props.wallets.map((wallet) =>
-            (<WalletsListItem key={wallet.currency}>
-              <h1>{wallet.currency} Wallet</h1>
-              <WalletInfo>
-                <h2>Amount: {numberWithCommas(wallet.amount)}</h2>
-                <h2>{this.calculateValue(wallet)} ({currency})</h2>
-              </WalletInfo>
-            </WalletsListItem>))}
-        </section>
+        {walletView === 'ALL' ?
+          <WalletsList {...walletListProps}/> :
+          <Wallet
+            view={walletView}
+            wallet={selectedWallet}
+            wallets={wallets}
+            calculateValue={calculateValue}
+          />}
       </WalletsListContainer>
     );
   }
 
-  calculateValue(wallet: IWallet) {
-    const { currency, amount } = wallet;
-    const { assets } = this.props;
-    const conversion = assets.filter((asset) => asset.currency === currency)[0];
-    return roundFloat(amount * conversion.rate, 2);
+  handleWalletSelect(walletView: string) {
+    this.props.setWalletView(walletView);
   }
 }
+
+const mapDispatchToProps = (dispatch: any) => ({
+  setWalletView: (walletView: string) => dispatch(setWalletView(walletView))
+});
+
+const mapStateToProps = (state: IWalletsState) => ({
+  walletView: state.walletView,
+  wallets: state.wallets
+});
+
+export const WalletsJest = Wallets;
+
+export default connect(mapStateToProps, mapDispatchToProps)(Wallets);

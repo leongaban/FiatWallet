@@ -4,11 +4,20 @@ import { connect } from 'react-redux'
 import { startGetRates, setCurrency, setView } from '../store'
 import { IinitialState, IAsset, IWallet, IRatesRes } from '../shared/types'
 import { numberWithCommas, roundFloat } from '../utils'
-import { CurrencySelector, Header, Prices, Navigation, Wallets } from '../components'
+import {
+  CurrencySelector,
+  Header,
+  Prices,
+  Navigation,
+  Wallets,
+  ExchangeModal
+} from '../components'
 
 interface IProps {
   assets: IAsset[];
   wallets: IWallet[];
+  exchangeModal: boolean;
+  walletView: string;
   currency: string;
   view: string;
   startGetRates(currency: string): IRatesRes;
@@ -20,12 +29,16 @@ interface IConvertedRate {
   convertedRate: number;
 }
 
-const renderView = ({assets, currency, wallets, view}: IProps) => {
+const renderExchangeModal = ({walletView, wallets}: IProps) => {
+  return <ExchangeModal wallet={walletView} wallets={wallets}/>
+};
+
+const renderView = ({assets, currency, view}: IProps) => {
   switch (view) {
     case 'wallets':
-      return <Wallets assets={assets} currency={currency} wallets={wallets} />;
+      return <Wallets assets={assets} currency={currency}/>;
     default: 
-      return <Prices assets={assets} />;
+      return <Prices assets={assets}/>;
   }
 };
 
@@ -43,7 +56,7 @@ class FiatWallet extends React.PureComponent<IProps> {
   }
 
   public render() {
-    const { currency, wallets } = this.props;
+    const { currency, wallets, view, exchangeModal } = this.props;
 
     return (
       <section>
@@ -53,8 +66,9 @@ class FiatWallet extends React.PureComponent<IProps> {
           onChangeCurrency={this.handleChangeCurrency}
         />
         <Header total={this.calculateTotalValue(wallets)}/>
+        {exchangeModal && renderExchangeModal(this.props)}
         {renderView(this.props)}
-        <Navigation onChangeView={this.handleChangeView} />
+        <Navigation view={view} onChangeView={this.handleChangeView} />
       </section>
     );
   }
@@ -83,15 +97,11 @@ class FiatWallet extends React.PureComponent<IProps> {
       return { convertedRate: 0 };
     });
 
-    console.log('convertedRates', convertedRates);
-
     const total = convertedRates.reduce(function(sum: number, wallet: IConvertedRate) {
       return sum + wallet.convertedRate;
     }, 0);
 
-    console.log('total', total);
-
-    return roundFloat(total, 2).toString();
+    return numberWithCommas(roundFloat(total, 2)).toString();
   }
 }
 
@@ -105,9 +115,11 @@ const mapStateToProps = (state: IinitialState) => ({
   assets: state.assets,
   wallets: state.wallets,
   currency: state.currency,
-  view: state.view
+  view: state.view,
+  walletView: state.walletView,
+  exchangeModal: state.exchangeModal
 });
 
-export const BoardJest = FiatWallet;
+export const FiatWalletJest = FiatWallet;
 
 export default connect(mapStateToProps, mapDispatchToProps)(FiatWallet);

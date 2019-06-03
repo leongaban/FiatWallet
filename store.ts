@@ -7,6 +7,7 @@ import { IinitialState } from './shared/types'
 
 const defaultInitialState = {
   assets: [],
+  currency: 'USD',
   wallets: [{
     currency: 'USD',
     amount: 100
@@ -17,46 +18,81 @@ const defaultInitialState = {
     currency: 'CHF',
     amount: 10000
   }],
-  currency: 'USD',
-  view: 'prices' // wallets, wallet, exchange, deposit, withdraw
-}
+  transactions: [],
+  view: 'prices', // wallets, wallet, transactions
+  walletView: 'ALL', // USD, EUR, CHF,
+  exchangeModal: false
+};
 
 // ACTION TYPES
 export const actionTypes = {
   GET_RATES: 'GET_RATES',
   SET_CURRENCY: 'SET_CURRENCY',
-  SET_VIEW: 'SET_VIEW'
+  SET_VIEW: 'SET_VIEW',
+  SET_WALLET_VIEW: 'SET_WALLET_VIEW',
+  DEPOSIT_WALLET: 'DEPOSIT_WALLET',
+  WITHDRAW_WALLET: 'WITHDRAW_WALLET',
+  TOGGLE_EXCHANGE_MODAL: 'TOGGLE_EXCHANGE_MODAL'
 }
 
 // REDUCER /////////////////////////////////////////////////////////
 export const reducer = (state = defaultInitialState, action: any) => {
   switch (action.type) {
     case actionTypes.GET_RATES: {
-      const { payload } = action;
-      return {
-        ...state,
-        assets: payload
-      };
+      const { payload: assets } = action;
+      return { ...state, assets };
     }
 
     case actionTypes.SET_CURRENCY: {
-      const { payload } = action;
-      return {
-        ...state,
-        currency: payload
-      };
+      const { payload: currency } = action;
+      return { ...state, currency };
     }
 
     case actionTypes.SET_VIEW: {
-      const { payload } = action;
-      return {
-        ...state,
-        view: payload
-      };
+      const { payload: view } = action;
+      return { ...state, view };
     }
 
-    default:
-      return state;
+    case actionTypes.SET_WALLET_VIEW: {
+      const { payload: walletView } = action;
+      return { ...state, walletView };
+    }
+
+    case actionTypes.TOGGLE_EXCHANGE_MODAL: {
+      const { payload: exchangeModal } = action;
+      return { ...state, exchangeModal };
+    }
+
+    case actionTypes.DEPOSIT_WALLET: {
+      const { payload: { walletName, depositAmount } } = action;
+      const updatedWallets = state.wallets.map((wallet) => {
+        if (wallet.currency === walletName) {
+          wallet.amount = wallet.amount + depositAmount;
+        }
+        return wallet;
+      });
+      return { ...state, wallets: updatedWallets };
+    }
+
+    case actionTypes.WITHDRAW_WALLET: {
+      const { payload: { walletName, withdrawAmount } } = action;
+      const updatedWallets = state.wallets.map((wallet) => {
+        if (wallet.currency === walletName) {
+          const newAmount = wallet.amount - withdrawAmount;
+          if (newAmount < 0) {
+            alert('You cannot withdraw more than your amount.');
+          }
+          else {
+            wallet.amount = newAmount;
+          }
+        }
+        return wallet;
+      });
+
+      return { ...state, wallets: updatedWallets };
+    }
+
+    default: return state;
   }
 }
 
@@ -76,6 +112,36 @@ export const actionSetView = (view: string) => ({
   payload: view
 });
 
+export const actionSetWalletView = (walletView: string) => ({
+  type: actionTypes.SET_WALLET_VIEW,
+  payload: walletView
+});
+
+export const actionToggleExchangeModal = (exchangeModal: boolean) => ({
+  type: actionTypes.TOGGLE_EXCHANGE_MODAL,
+  payload: exchangeModal
+});
+
+export const actionWalletDeposit = (walletName: string, depositAmount: number) => {
+  return ({
+    type: actionTypes.DEPOSIT_WALLET,
+    payload: {
+      walletName,
+      depositAmount
+    }
+  });
+};
+
+export const actionWalletWithdraw = (walletName: string, withdrawAmount: number) => {
+  return ({
+    type: actionTypes.WITHDRAW_WALLET,
+    payload: {
+      walletName,
+      withdrawAmount
+    }
+  });
+};
+
 // ACTIONS //////////////////////////////////////////////////////////
 export const startGetRates = (currency: string) => (dispatch: any) =>
   getEURrates(currency).then((ratesArray) => {
@@ -87,6 +153,18 @@ export const setCurrency = (currency: string) => (dispatch: any) =>
 
 export const setView = (view: string) => (dispatch: any) =>
   dispatch(actionSetView(view));
+
+export const setWalletView = (walletView: string) => (dispatch: any) =>
+  dispatch(actionSetWalletView(walletView));
+
+export const depositIntoWallet = (walletName: string, depositAmount: number) => (dispatch: any) =>
+  dispatch(actionWalletDeposit(walletName, depositAmount));
+
+export const withdrawIntoWallet = (walletName: string, withdrawAmount: number) => (dispatch: any) =>
+dispatch(actionWalletWithdraw(walletName, withdrawAmount));
+
+export const toggleExchangeModal = (exchangeModal: boolean) => (dispatch: any) =>
+  dispatch(actionToggleExchangeModal(exchangeModal));
 
 export function initializeStore(initialState: IinitialState = defaultInitialState) {
   return createStore(

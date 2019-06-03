@@ -1,8 +1,9 @@
 import React from 'react'
 
-import { NavButton, NavSection } from '../../styles'
+import { ActiveButton, NavButton, NavSection } from '../../styles'
 
 interface IProps {
+  view: string;
   onChangeView(view: string): void;
 }
 
@@ -13,10 +14,14 @@ export default class Navigation extends React.PureComponent<IProps> {
   }
 
   public render() {
+    const { view } = this.props;
+    const BtnPrices = view === 'prices' ? ActiveButton : NavButton;
+    const BtnWallets = view === 'wallets' ? ActiveButton : NavButton;
+
     return (
       <NavSection>
-        <NavButton onClick={() => this.handleChange('prices')}>Prices</NavButton>
-        <NavButton onClick={() => this.handleChange('wallets')}>Wallets</NavButton>
+        <BtnPrices onClick={() => this.handleChange('prices')}>Prices</BtnPrices>
+        <BtnWallets onClick={() => this.handleChange('wallets')}>Wallets</BtnWallets>
       </NavSection>
     );
   }
